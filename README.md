@@ -15,6 +15,6 @@ With a little work, these addresses can also be back-traced to their ROM values 
 Just text files.  No actual code.
 
 ### Can we contribute?
-This repo is mostly for things I'm interested in at a given time. However, I probably won't turn away submissions.
+This repo is mostly for things I'm interested in at a given time. I'd recommend joining the *[Data Crystal](https://datacrystal.tcrf.net/wiki/Data_Crystal)* Wiki if you're looking to contribute to an existing project.
 
-If you're looking to contribute to an existing project of greater scope, I'd recommend joining the *[Data Crystal](https://datacrystal.tcrf.net/wiki/Data_Crystal)* Wiki.
+Sidenote: If you submit any of the findings of this repository to another repository or website, a mention of this repo isn't strictly necessary (I'm just poking values), but it would be appreciated.
