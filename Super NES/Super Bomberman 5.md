@@ -1,8 +1,11 @@
 # Super Bomberman 5 RAM Values
-
 RAM values observed in Super Bomberman 5 (SNES).
 
-Addresses are WRAM offsets and correspond to SNES address `$7E:xxxx` (add `$7E0000` to the listed value). All values are 8-bit unless otherwise noted.
+Addresses are WRAM offsets and correspond to SNES address `$7E:xxxx` (add `$7E0000` to the listed value).
+
+All values are 8-bit unless otherwise noted.
+
+---
 
 - `0x001031` - Current Room (includes cutscenes and menus)
 - `0x0016c2` - P1 Character ($00 - $09)
@@ -32,8 +35,9 @@ Addresses are WRAM offsets and correspond to SNES address `$7E:xxxx` (add `$7E00
 - `0x00626c` - P4 Controller
 - `0x00626d` - P5 Controller
 
-### Values
+---
 
+### Values
 #### Characters
 ```
   $00 - Bomberman               $01 - Bomber Woof       $02 - Dave Bomber
@@ -49,7 +53,7 @@ Addresses are WRAM offsets and correspond to SNES address `$7E:xxxx` (add `$7E00
   $06 - Warooey (Black)
 ```
 
-### Palettes
+#### Palettes
 ```
   $00 to $07 - Bomberman
   (White, White, Black, Red, Blue, Green, Gold, Burning)
@@ -62,6 +66,8 @@ Addresses are WRAM offsets and correspond to SNES address `$7E:xxxx` (add `$7E00
   (White, Black, Red, Blue, Green, Gold, Burning, Boss)
   $50 to $59 - Random enemy palettes? (Possible junk data.)
 ```
+
+---
 
 ### Notes
 #### Character, Rooey, and Boss Addresses
@@ -81,4 +87,5 @@ Addresses are WRAM offsets and correspond to SNES address `$7E:xxxx` (add `$7E00
   - Subordinate Bomber is fully functional, but causes the scoreboard to harmlessly glitch during a Battle Game.
     - If he gets a solo victory, the game will crash as he doesn't have a "shout out" voice clip.
   - Warooey has no ability, and his jumping graphics are never called when hopping into a mine cart.
+
     - However, he *does* have graphics for both things in the ROM.
