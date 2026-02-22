@@ -1,7 +1,7 @@
-# J. Collins' SRAM Research and Development Database
+# J. Collins' RAM Research and Development Database
 
 ### What is this?
-This is just a collection of SRAM addresses I've found across various video games.  Mostly old ones.
+This is just a collection of RAM addresses I've found across various video games.  Mostly old ones.
 
 ### How did you do this?
 Debuggers, RAM search, et cetera.
