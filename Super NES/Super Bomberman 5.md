@@ -1,91 +1,181 @@
-# Super Bomberman 5 RAM Values
-RAM values observed in Super Bomberman 5 (SNES).
+# *Super Bomberman 5* RAM Values
+RAM values observed in *Super Bomberman 5* (Super Famicom, Japan).
 
-Addresses are WRAM offsets and correspond to SNES address `$7E:xxxx` (add `$7E0000` to the listed value).
+Addresses are WRAM offsets and correspond to Super Famicom address `$7E:xxxx` (add `$7E0000` to the listed value).
 
-All values are 8-bit unless otherwise noted.
+All values are **8-bit** unless otherwise noted.<br>Multi-byte values (**16-bit or higher**) are stored in **little-endian** format: least significant byte first, most significant byte last.
 
----
-
-- `0x001031` - Current Room (includes cutscenes and menus)
-- `0x0016c2` - P1 Character ($00 - $09)
-- `0x0016c3` - P2 Character
-- `0x0016c4` - P3 Character (Battle) / P1 Rooey ($00 - $06) / Boss 1 (Vs. Boss)
-- `0x0016c5` - P4 Character (Battle) / P2 Rooey / P1 Rooey (Vs. Boss) or Boss 2 (Vs. Boss)
-- `0x0016c6` - P5 Character (Battle) / Enemy (Normal Game) / P2 Rooey (Vs. Boss) or P1 Rooey (Vs. Boss)
-- `0x0016c7` - P1 Rooey (Battle) / Enemy (Normal Game) / Boss 1 Rooey (Vs. Boss) or P2 Rooey (vs. Boss)
-- `0x0016c8` - P2 Rooey (Battle) / Enemy (Normal Game) / Boss 1 Rooey (Vs. Boss)
-- `0x0016c9` - P3 Rooey (Battle) / Enemy (Normal Game) / Boss 2 Rooey (Vs. Boss)
-- `0x0016ca` - P4 Rooey (Battle) / Enemy (Normal Game)
-- `0x0016cb` - P5 Rooey (Battle) / Enemy (Normal Game)
-- `0x0016cc` - Enemy (Normal Game)
-- `0x0016da` - P1 Palette ($01 - $4f)
-- `0x0016db` - P2 Palette
-- `0x0016dc` - P3 Palette
-- `0x0016dd` - P4 Palette
-- `0x0016de` - P5 Palette
-- `0x001782` - P1 on Rooey? ($00 - No, $02 - In Transit, $80 - Yes)
-- `0x001783` - P2 on Rooey?
-- `0x001784` - P3 on Rooey?
-- `0x001785` - P4 on Rooey?
-- `0x001786` - P5 on Rooey?
-- `0x006269` - P1 Controller
-- `0x00626a` - P2 Controller
-- `0x00626b` - P3 Controller
-- `0x00626c` - P4 Controller
-- `0x00626d` - P5 Controller
-
----
-
-### Values
-#### Characters
+## Addresses
+### Player Stats
 ```
-  $00 - Bomberman               $01 - Bomber Woof       $02 - Dave Bomber
-  $03 - Gary Bomber             $04 - Pirate Bomber     $05 - Muscle Bomber
-  $06 - Iron Mask Bomber        $07 - Baron Bombano     $08 - Plunder Bomber
+  0x0015a2 to 0x0015a6 - P1 to P5 Status (8-Bit Bit Flag)
+    Bit Flags (8-bit): $04 = Invulnerable, $20 = Stunned, $40 = Dead
+
+  0x00170a to 0x00170e - P1 to P5 I-Frames LoByte
+    Expected Value Range: $00 - $ff
+
+  0x001722 to 0x001726 - P1 to P5 I-Frames HiByte
+    Expected Value Range: $00 - $04
+
+  0x001782 to 0x001786 - Is P1 to P5 on a Rooey?
+    Expected Values: $00 = No Rooey, $02 = In Transit, $80 = Riding Rooey
+```
+
+#### Notes
+- The **Status** and **I-Frames** addresses must be used together to grant a player invulnerability.
+- The **Is on a Rooey?** addresses work instantly, but may crash the game if used in the middle of a level.
+
+### Player Customization
+```
+  0x0016c2 to 0x0016c6 - P1 to P5 Character
+    Expected Value Range: $00 - $09
+
+  0x0016da to 0x0016de - P1 to P5 Palette
+    Expected Value Range: $01 - $4f
+```
+
+#### Notes
+- Changing the **character or palette** addresses work as expected for all players in a Normal or Battle Game, but will reset to their expected values at the map screen (Normal Game) or Score Board (Battle Game) unless frozen.
+
+### Player Power-Ups
+```
+  0x0015d2 to 0x0015d6 - P1 to P5 Speed (LoByte)
+    Expected Value Range: $00 - $e0 (in increments of $20)
+    Default Values: $e0 (Normal Game), $00 (Battle Game)
+
+  0x0015ea to 0x0015ee - P1 to P5 Speed (HiByte)
+    Expected Value Range: $00 - $02
+    Default Values: $00 (Normal Game), $01 (Battle Game)
+
+  0x001662 to 0x001666 - P1 to P5 Hearts
+    Expected Value Range: $00 - $ff (Will "roll over" to $00 after $ff.)
+
+  0x00167a to 0x00167e - P1 to P5 Block Pass Items (Reverse Bitmask)
+    Expected Value Range: $e0 to $80
+
+  0x0016c7 to 0x0016cb - P1 to P5 Rooey Type
+    Expected Value Range: $00 - $05
+
+  0x0017ca to 0x0017ce - P1 to P5 Fire-Ups
+    Expected Value Range: $02 - $08
+
+  0x004ebd to 0x004ec1 - P1 to P5 Bomb-Ups
+    Expected Value Range: $01 - $08
+
+  0x004ed5 to 0x004ed9 - P1 to P5 Power-Ups (Bitmask)
+    Expected Value Range: $00 - $4e
+```
+
+#### Notes
+- In normal gameplay, players can only have one Bomb Type at a time (handled by the **Power-Ups** bitmask. However, if modded in, the game code happens to allow multiple active bomb abilities (with quirks):
+  - **Remote Bomb** overrides all other bomb types visually and functionally, but preserves Pierce Bomb's piercing effect.  
+  - **Pierce Bomb** overrides Search Bomb and Mine Bomb visually, but preserves Search Bomb's tracking ability while ignoring Mine Bomb's trap ability.  
+  - **Search Bomb** takes precedence over Mine Bomb's trap ability, but retains Mine Bomb's graphics.  
+  - **Mine Bomb**, when combined with Pierce Bomb, retains its trap ability but uses Pierce Bomb's graphics.
+
+- `0x0016c4` through `0x0016cc` are a sliding data block:
+  - In a Normal Game, `0x0016c4` and `0x0016c5` are **Player 1 and Player 2's Rooey values**, and `0x0016c7` through `0x0016cb` (plus `0x0016cc`) are **enemy values**.
+  - In a single-boss battle, `0x0016c4` is the **boss character value**, `0x0016c5` and `0x0016c6` are **Player 1 and Player 2's Rooey values**, and `0x0016c7` is **Boss 1's Rooey value**.
+  - In a double-boss battle (Pirate and Subordinate), `0x0016c4` and `0x0016c5` are **Boss 1 and Boss 2's character values**, and `0x0016c6` and `0x0016c7` are **Player 1 and Player 2's Rooey values**, respectively. `0x0016c8` is **Boss 1's Rooey value**.
+    - `0x0016c9` can also store **Boss 2's Rooey value**, though this goes unused in normal gameplay.
+  - Any untouched values in a boss fight — typically `0x0016c9` through `0x0016cc` — may still be used for normal enemies. (Iron Mask or Baron Bombano fights.)
+
+### Other Addresses
+```
+  0x000e1c - Time Left (24-Bit)
+    Expected Value Range: $0100eb - $05003b
+    Disabled: $006309, Maximum: $3b3b09
+
+  0x001d23 - Normal Game Lives
+    Expected Value Range: $00 - $09
+
+  0x001031 - Current Room
+    Expected Value Range: $00 - $ae
+```
+
+## Values
+### Characters
+
+```
+  $00 - Bomberman                 $01 - Bomber Woof       $02 - Dave Bomber
+  $03 - Gary Bomber               $04 - Pirate Bomber     $05 - Muscle Bomber
+  $06 - Iron Mask Bomber          $07 - Baron Bombano     $08 - Plunder Bomber
   $09 - Subordinate Bomber
 ```
 
-#### Rooeys
-```
-  $00 - Nagurooey (Red)         $01 - Marooey (Green)   $02 - Hanerooey (Pink)
-  $03 - Gyarooey (Yellow)       $04 - Kerooey (Blue)    $05 - Magicarooey (Purple)
-  $06 - Warooey (Black)
-```
+#### Notes
+- Despite being only a boss, **Subordinate Bomber** is fully functional with some small caveats:
+  - He lacks a player icon, causing some harmless glitches to the Battle Game scoreboard or the Config Mode interface.
+  - He uses Bomberman's portrait in menus, and Bomberman's sprite for the Score Board.
+  - If he gets a solo victory, the **game will crash** as he doesn't have a "shout out" voice clip.
 
-#### Palettes
+### Palettes
 ```
   $00 to $07 - Bomberman
   (White, White, Black, Red, Blue, Green, Gold, Burning)
 
-  $08 to $0f - Bomber Woof              $10 to $17 - Dave Bomber
-  $18 to $1f - Gary Bomber              $20 to $27 - Pirate Bomber
-  $28 to $2f - Muscle Bomber            $30 to $37 - Iron Mask Bomber
-  $38 to $3f - Baron Bombano            $40 to $47 - Plunder Bomber
+  $08 to $0f - Bomber Woof                $10 to $17 - Dave Bomber
+  $18 to $1f - Gary Bomber                $20 to $27 - Pirate Bomber
+  $28 to $2f - Muscle Bomber              $30 to $37 - Iron Mask Bomber
+  $38 to $3f - Baron Bombano              $40 to $47 - Plunder Bomber
   $48 to $4f - Subordinate Bomber
   (White, Black, Red, Blue, Green, Gold, Burning, Boss)
+
   $50 to $59 - Random enemy palettes? (Possible junk data.)
 ```
 
----
+### Rooeys
+```
+  $00 - Nagurooey (Red)           $01 - Marooey (Green)   $02 - Hanerooey (Pink)
+  $03 - Gyarooey (Yellow)         $04 - Kerooey (Blue)    $05 - Magicarooey (Purple)
+  $06 - Warooey (Black)
+```
 
-### Notes
-#### Character, Rooey, and Boss Addresses
-- The character and palette codes work for both players in a Normal Game, but will reset to their expected values at the map screen unless frozen.
-  - The character and palette codes work for all players in a Battle Game, but will reset to their expected values at the Score Board unless frozen.
-- `0x0016c4` through `0x0016cc` are a sliding data block. Boss character entries occupy the first slots, pushing player Rooey values downward:
-  - In a Normal Game, `0x0016c4` and `0x0016c5` are Player 1 and Player 2's Rooey values, and `0x0016c7` through `0x0016cc` are enemy values.
-  - In a single-boss fight, `0x0016c4` is the boss character value, `0x0016c5` and `0x0016c6` are Player 1 and Player 2's Rooey values, and `0x0016c7` is Boss 1's Rooey value.
-  - In a double-boss fight (Pirate and Subordinate), `0x0016c4` and `0x0016c5` are Boss 1 and Boss 2's character values, and `0x0016c6` and `0x0016c7` are Player 1 and Player 2's Rooey values, respectively. `0x0016c8` is Boss 1's Rooey value.
-  - Any untouched values in a boss fight — typically `0x0016c9` through `0x0016cc` — may be used for normal enemies.
-    - `0x0016c9` can also store Boss 2's Rooey value, though this goes unused in normal gameplay.
-- The "Is on Rooey?" codes work instantly, but may crash the game if not used between level transitions.
-- The "Controller" codes **are for Battle Game only**. You cannot make Player 2 computer-controlled in a Normal Game through this method. (I'm not sure it's possible, *period*.)
+#### Notes
+- Warooey, the "boss-only" Rooey, has some quirks:
+  - Most of his sprites are there — including unused mine cart sprites.
+  - Warooey's jumping sprites exist in ROM but are never called during gameplay.
+  - Unlike other Rooeys, he has no special ability. However, he *does* have graphics for a shoulder tackle move in the ROM.
 
-#### Other Notes
-- In normal gameplay, Subordinate Bomber and Warooey are unusable by the player:
-  - Subordinate Bomber is fully functional, but causes the scoreboard to harmlessly glitch during a Battle Game.
-    - If he gets a solo victory, the game will crash as he doesn't have a "shout out" voice clip.
-  - Warooey has no ability, and his jumping graphics are never called when hopping into a mine cart.
+### Rooms
+```
+  $01 - Hudson Logo                       $02 - Title
+  $03 - Normal Game Menus                 $04 - Battle Game Menus
+  $05 - Battle Game Scoreboard            $07 - Password
+  $08 - Game Over                         $09 - Completion Certificate
+  $0a - Battle Mode Draw Game             $0b - Options
+  $0c - Debug Level Select*
 
-    - However, he *does* have graphics for both things in the ROM.
+  $0d to $66 - Normal Game Levels         $67 to $70 - Normal Game Boss
+  $74 to $a7 - Battle Game Levels
+
+  $a8 - Bomber Bowl                       $a9 - Intro Cutscene
+  $aa - Good Ending                       $ab - Bad Ending
+  $ac - Battle Game Test (doesn't end)*   $ad - Normal Game Item Test*
+  $ae - Normal Game Enemy Test*
+
+  * These values originally found by Shizi Kekotsike on The Cutting Room Floor Wiki
+
+  Other values either lead to a black screen soft-lock or a broken blue play field.
+```
+
+### Power-Up Bitmask Values
+**Increasing** the address by these values gives a player an array of power-ups.
+
+> **Example:**<br>`$00` + `$20` + `$02` + `$08` = `$2a` (Mine Bomb + Kick + Boxing Glove)
+
+```
+  $00 - No Power-Ups      $01 - Remote Bomb       $02 - Kick
+  $04 - Power Glove       $08 - Boxing Glove      $10 - Pierce Bomb
+  $20 - Mine Bomb         $40 - Search Bomb       $80 - Not Used
+```
+
+### Pass Item Bitmask Values
+**Decrementing** the address (which typically starts at `$e0`) by these values will give a player the listed abilities.
+
+> **Example:**<br>`$e0` - `$20` - `$40` = `$80` (Soft + Bomb Pass)
+
+```
+  $00 - No Pass Items             $20 - Soft Block Pass
+  $40 - Bomb Pass                 $80 - Hard Block Pass (Unused; for debugging?)
+```
