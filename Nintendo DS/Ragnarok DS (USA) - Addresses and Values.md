@@ -32,7 +32,7 @@ Expected Value Ranges per Byte:
         Armor: $12, $00–$35              Cape: $13, $00–$10       Shoes: $14, $00–$10
   Accessory 1: $15, $00–$31       Accessory 2: $15, $00–$31
   
-   Refinement: $00–$03              Cards: $00–$41 or $fe–$ff
+   Refinement: $00–$03                  Cards: $00–$41 or $fe–$ff
 ```
 
 #### Notes
@@ -190,3 +190,4 @@ $20 - Shaman            $21 - Dark Knight
 
 ### Notes
 - For specific item, skill, card values, value notes, please refer to **Ragnarok DS (W) - Value Appendixes.md*.
+
