@@ -56,7 +56,7 @@ $3C - Zweihander
 ```
 $00 - Javelin           $05 - Spear             $0A - Pike
 $0F - Tjungkuletti      $14 - Skewer            $19 - Gungnir
-$1E - Geledria  $23 - Pole Axe
+$1E - Geledria          $23 - Pole Axe
 ```
 
 #### 2H Spear
@@ -335,7 +335,7 @@ $B3 - Spirit of Water   $B4 - Spirit of Wind    $B5 - Divine Judgment
 
 #### Novice Skills
 ```
-$B6 - First-Aid $B7 - Novice Attack
+$B6 - First-Aid         $B7 - Novice Attack
 ```
 
 ### Job and Gender
