@@ -1,7 +1,7 @@
 # *Super Bomberman 5* RAM Addresses
 RAM addresses and values in *Super Bomberman 5* (Super Famicom, Japan).
 
-Addresses are WRAM offsets and correspond to Super Famicom address `$7E:xxxx` (add `$7E0000`–the listed value).
+Addresses are WRAM offsets and correspond to Super Famicom address `$7E:xxxx` (add `$7E0000` to the listed value).
 
 All values are **8-bit** unless otherwise noted.<br>Multi-byte values (**16-bit or higher**) are stored in **little-endian** format: least significant byte first, most significant byte last.
 
@@ -22,7 +22,7 @@ All values are **8-bit** unless otherwise noted.<br>Multi-byte values (**16-bit 
 ```
 
 #### Notes
-- The **Status** and **I-Frames** addresses must be used together–grant a player invulnerability.
+- The **Status** and **I-Frames** addresses must be used together to grant a player invulnerability.
 - The **Is on a Rooey?** addresses work instantly, but may crash the game if used in the middle of a level.
 
 ### Player Customization
@@ -35,7 +35,7 @@ All values are **8-bit** unless otherwise noted.<br>Multi-byte values (**16-bit 
 ```
 
 #### Notes
-- Changing the **character or palette** addresses work as expected for all players in a Normal or Battle Game, but will reset–their expected values at the map screen (Normal Game) or Score Board (Battle Game) unless frozen.
+- Changing the **character or palette** addresses work as expected for all players in a Normal or Battle Game, but will reset to their expected values at the map screen (Normal Game) or Score Board (Battle Game) unless frozen.
 
 ### Player Power-Ups
 ```
@@ -67,7 +67,7 @@ All values are **8-bit** unless otherwise noted.<br>Multi-byte values (**16-bit 
 ```
 
 #### Notes
-- In normal gameplay, players can only have one Bomb Type at a time (handled by the **Power-Ups** bitmask. However, if modded in, the game code happens–allow multiple active bomb abilities (with quirks):
+- In normal gameplay, players can only have one Bomb Type at a time (handled by the **Power-Ups** bitmask. However, if modded in, the game code happens to allow multiple active bomb abilities (with quirks):
   - **Remote Bomb** overrides all other bomb types visually and functionally, but preserves Pierce Bomb's piercing effect.
   - **Pierce Bomb** overrides Search Bomb and Mine Bomb visually, but preserves Search Bomb's tracking ability while ignoring Mine Bomb's trap ability.
   - **Search Bomb** takes precedence over Mine Bomb's trap ability, but retains Mine Bomb's graphics.
@@ -105,7 +105,7 @@ $09 - Subordinate Bomber
 
 #### Notes
 - Despite being only a boss, **Subordinate Bomber** is fully functional with some small caveats:
-  - He lacks a player icon, causing some harmless glitches–the Battle Game scoreboard or the Config Mode interface.
+  - He lacks a player icon, causing some harmless glitches to the Battle Game scoreboard or the Config Mode interface.
   - He uses Bomberman's portrait in menus, and Bomberman's sprite for the Score Board.
   - If he gets a solo victory, the **game will crash** as he doesn't have a "shout out" voice clip.
 
@@ -156,7 +156,7 @@ $ae - Normal Game Enemy Test*
 ```
 
 #### Notes
-- Values not listed here either lead–a black screen soft-lock, or a broken blue play field where the player dies over and over, but never actually loses any lives.
+- Values not listed here either lead to a black screen soft-lock, or a broken blue play field where the player dies over and over, but never actually loses any lives.
 - Debug menu and room values originally found by Shizi Kekotsike on *The Cutting Room Floor Wiki*.
 
 ### Power-Up Bitmask Values
