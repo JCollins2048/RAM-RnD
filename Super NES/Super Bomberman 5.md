@@ -9,7 +9,7 @@ All values are **8-bit** unless otherwise noted.<br>Multi-byte values (**16-bit 
 ### Player Status
 ```
 0x0015a2–0x0015a6 - P1 to P5 Status (8-Bit Bit Flag)
-  Bit Flags (8-bit): $04 = Invulnerable, $20 = Stunned, $40 = Dead
+  Bit Flags (8-bit): +$04 = Invulnerable, +$20 = Stunned, +$40 = Dead
 
 0x00170a–0x00170e - P1 to P5 I-Frames LoByte
   Expected Value Range: $00 - $ff
@@ -17,8 +17,8 @@ All values are **8-bit** unless otherwise noted.<br>Multi-byte values (**16-bit 
 0x001722–0x001726 - P1 to P5 I-Frames HiByte
   Expected Value Range: $00 - $04
 
-0x001782–0x001786 - Is P1 to P5 on a Rooey?
-  Expected Values: $00 = No Rooey, $02 = In Transit, $80 = Riding Rooey
+0x001782–0x001786 - Is P1 to P5 on a Rooey? (8-Bit Bit Flag)
+  Expected Values: +$00 = No Rooey, +$02 = In Transit, +$80 = Riding Rooey
 ```
 
 #### Notes
@@ -40,30 +40,30 @@ All values are **8-bit** unless otherwise noted.<br>Multi-byte values (**16-bit 
 ### Player Power-Ups
 ```
 0x0015d2–0x0015d6 - P1 to P5 Speed (LoByte)
-  Expected Value Range: $00 - $e0 (in increments of $20)
+  Expected Value Range: $00–$e0 (in increments of $20)
   Default Values: $e0 (Normal Game), $00 (Battle Game)
 
 0x0015ea–0x0015ee - P1 to P5 Speed (HiByte)
-  Expected Value Range: $00 - $02
+  Expected Value Range: $00–$02
   Default Values: $00 (Normal Game), $01 (Battle Game)
 
 0x001662–0x001666 - P1 to P5 Hearts
-  Expected Value Range: $00 - $ff (Will "roll over"–$00 after $ff.)
+  Expected Value Range: $00–$ff (Will "roll over"–$00 after $ff.)
 
 0x00167a–0x00167e - P1 to P5 Block Pass Items (Reverse Bitmask)
   Expected Value Range: $e0–$80
 
 0x0016c7–0x0016cb - P1 to P5 Rooey Type
-  Expected Value Range: $00 - $05
+  Expected Value Range: $00–$05
 
 0x0017ca–0x0017ce - P1 to P5 Fire-Ups
-  Expected Value Range: $02 - $08
+  Expected Value Range: $02–$08
 
 0x004ebd–0x004ec1 - P1 to P5 Bomb-Ups
-  Expected Value Range: $01 - $08
+  Expected Value Range: $01–$08
 
 0x004ed5–0x004ed9 - P1 to P5 Power-Ups (Bitmask)
-  Expected Value Range: $00 - $4e
+  Expected Value Range: $00–$4e
 ```
 
 #### Notes
@@ -83,14 +83,14 @@ All values are **8-bit** unless otherwise noted.<br>Multi-byte values (**16-bit 
 ### Other Addresses
 ```
 0x000e1c - Time Left (24-Bit)
-  Expected Value Range: $0100eb - $05003b
+  Expected Value Range: $0100eb–$05003b
   Disabled: $006309, Maximum: $3b3b09
 
 0x001d23 - Normal Game Lives
-  Expected Value Range: $00 - $09
+  Expected Value Range: $00–$09
 
 0x001031 - Current Room
-  Expected Value Range: $00 - $ae
+  Expected Value Range: $00–$ae
 ```
 
 ## Values
@@ -165,9 +165,9 @@ $ae - Normal Game Enemy Test*
 > **Example:**<br>`$00` + `$20` + `$02` + `$08` = `$2a` (Mine Bomb + Kick + Boxing Glove)
 
 ```
-$00 - No Power-Ups              $01 - Remote Bomb               $02 - Kick
-$04 - Power Glove               $08 - Boxing Glove              $10 - Pierce Bomb
-$20 - Mine Bomb                 $40 - Search Bomb               $80 - Not Used
++$00 - No Power-Ups             +$01 - Remote Bomb              +$02 - Kick
++$04 - Power Glove              +$08 - Boxing Glove             +$10 - Pierce Bomb
++$20 - Mine Bomb                +$40 - Search Bomb              +$80 - Not Used
 ```
 
 ### Pass Item Bitmask Values
@@ -176,6 +176,6 @@ $20 - Mine Bomb                 $40 - Search Bomb               $80 - Not Used
 > **Example:**<br>`$e0` - `$20` - `$40` = `$80` (Soft + Bomb Pass)
 
 ```
-$00 - No Pass Items                     $20 - Soft Block Pass
-$40 - Bomb Pass                         $80 - Hard Block Pass (Unused; for debugging?)
+-$00 - No Pass Items                    -$20 - Soft Block Pass
+-$40 - Bomb Pass                        -$80 - Hard Block Pass (Unused; for debugging?)
 ```
