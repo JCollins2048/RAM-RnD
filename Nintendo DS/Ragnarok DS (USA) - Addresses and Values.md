@@ -151,7 +151,7 @@ Refinement: $00–$03                  Cards: $00–$41 or $fe–$ff
 
 ## Values
 ### Equipment, Cards, and Skills
-> *Please refer to [Ragnarok DS (W) - Value Appendixes.md](https://github.com/JCollins2048/RAM-RnD/blob/main/Nintendo%20DS/Ragnarok%20DS%20(USA)%20-%20Addresses%20and%20Values.md).*
+> *Please refer to [Ragnarok DS (W) - Value Appendixes.md](Ragnarok DS (W) - Value Appendixes.md).*
 
 ### Job and Gender
 #### Male Characters
