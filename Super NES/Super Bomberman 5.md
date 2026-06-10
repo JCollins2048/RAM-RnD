@@ -6,66 +6,49 @@ Addresses are WRAM offsets and correspond to Super Famicom address `$7E:xxxx` (a
 All values are **8-bit** unless otherwise noted.<br>Multi-byte values (**16-bit or higher**) are stored in **little-endian** format: least significant byte first, most significant byte last.
 
 ## Player Status
+### Current Stats
 ```
-0x0015a2–0x0015a6 - P1 to P5 Status (8-Bit Bit Flag)
-  Bit Flags (8-bit): +$04 = Invulnerable, +$20 = Stunned, +$40 = Dead
+0x0015a2–0x0015a6 - Player Status (8-Bit Bit Flag)
 
-0x00170a–0x00170e - P1 to P5 I-Frames LoByte
-  Expected Value Range: $00 - $ff
+Player I-Frames:
+  0x00170a–0x00170e - LoByte              0x001722–0x001726 - HiByte
 
-0x001722–0x001726 - P1 to P5 I-Frames HiByte
-  Expected Value Range: $00 - $04
+0x001782–0x001786 - Is Player on a Rooey? (8-Bit Bit Flag)
+```
 
-0x001782–0x001786 - Is P1 to P5 on a Rooey? (8-Bit Bit Flag)
-  Expected Values: +$00 = No Rooey, +$02 = In Transit, +$80 = Riding Rooey
+### Customization
+```
+0x0016c2–0x0016c6 - Character           0x0016da–0x0016de - Palette
+```
+
+### Power-Ups
+```
+Player Speed:
+  0x0015d2–0x0015d6 - LoByte              0x0015ea–0x0015ee - HiByte
+
+0x001662–0x001666 - Player Hearts
+0x00167a–0x00167e - Player Block Pass Items (Reverse Bitmask)
+0x0016c7–0x0016cb - Player Rooey Type
+0x0017ca–0x0017ce - Player Fire-Ups
+0x004ebd–0x004ec1 - Player Bomb-Ups
+0x004ed5–0x004ed9 - Player Power-Ups (Bitmask)
+```
+
+## Other Addresses
+```
+0x000e1c - Time Left (24-Bit)
+0x001d23 - Normal Game Lives
+0x001031 - Current Room
 ```
 
 ### Notes
+- All addresses are for Players 1 through 5.
+
 - The **Status** and **I-Frames** addresses must be used together to grant a player invulnerability.
 - The **Is on a Rooey?** addresses work instantly, but may crash the game if used in the middle of a level.
 
-## Player Customization
-```
-0x0016c2–0x0016c6 - P1 to P5 Character
-  Expected Value Range: $00 - $09
-
-0x0016da–0x0016de - P1 to P5 Palette
-  Expected Value Range: $01 - $4f
-```
-
-### Notes
 - Changing the **character or palette** addresses work as expected for all players in a Normal or Battle Game, but will reset to their expected values at the map screen (Normal Game) or Score Board (Battle Game) unless frozen.
 
-## Player Power-Ups
-```
-0x0015d2–0x0015d6 - P1 to P5 Speed (LoByte)
-  Expected Value Range: $00–$e0 (in increments of $20)
-  Default Values: $e0 (Normal Game), $00 (Battle Game)
-
-0x0015ea–0x0015ee - P1 to P5 Speed (HiByte)
-  Expected Value Range: $00–$02
-  Default Values: $00 (Normal Game), $01 (Battle Game)
-
-0x001662–0x001666 - P1 to P5 Hearts
-  Expected Value Range: $00–$ff (Will "roll over"–$00 after $ff.)
-
-0x00167a–0x00167e - P1 to P5 Block Pass Items (Reverse Bitmask)
-  Expected Value Range: $e0–$80
-
-0x0016c7–0x0016cb - P1 to P5 Rooey Type
-  Expected Value Range: $00–$05
-
-0x0017ca–0x0017ce - P1 to P5 Fire-Ups
-  Expected Value Range: $02–$08
-
-0x004ebd–0x004ec1 - P1 to P5 Bomb-Ups
-  Expected Value Range: $01–$08
-
-0x004ed5–0x004ed9 - P1 to P5 Power-Ups (Bitmask)
-  Expected Value Range: $00–$4e
-```
-
-### Notes
 - In normal gameplay, players can only have one Bomb Type at a time (handled by the **Power-Ups** bitmask. However, if modded in, the game code happens to allow multiple active bomb abilities (with quirks):
   - **Remote Bomb** overrides all other bomb types visually and functionally, but preserves Pierce Bomb's piercing effect.
   - **Pierce Bomb** overrides Search Bomb and Mine Bomb visually, but preserves Search Bomb's tracking ability while ignoring Mine Bomb's trap ability.
@@ -79,17 +62,42 @@ All values are **8-bit** unless otherwise noted.<br>Multi-byte values (**16-bit 
     - `0x0016c9` can also store **Boss 2's Rooey value**, though this goes unused in normal gameplay.
   - Any untouched values in a boss fight — typically `0x0016c9` through `0x0016cc` — may still be used for normal enemies. (Iron Mask or Baron Bombano fights.)
 
-## Other Addresses
+## Expected Value Ranges
+### Player Status
 ```
-0x000e1c - Time Left (24-Bit)
-  Expected Value Range: $0100eb–$05003b
+Status: +$04 = Invulnerable, +$20 = Stunned, +$40 = Dead
+I-Frames LoByte: $00 - $ff              I-Frames HiByte: $00 - $04
+Is Player on a Rooey?: +$00 = No Rooey, +$02 = In Transit, +$80 = Riding Rooey
+```
+
+### Player Customization
+```
+Character: $00 - $09                    Palette: $01 - $4f
+```
+
+### Player Power-Ups
+```
+Player Speed (LoByte): $00–$e0 (in increments of $20)
+  Default Values: $e0 (Normal Game), $00 (Battle Game)
+
+Player Speed (HiByte): $00–$02
+  Default Values: $00 (Normal Game), $01 (Battle Game)
+
+Player Hearts: $00–$ff (Will "roll over"–$00 after $ff.)
+Player Block Pass Items (Reverse Bitmask): $e0–$80
+Player Rooey Type: $00–$05
+Player Fire-Ups: $02–$08
+Player Bomb-Ups: $01–$08
+Player Power-Ups (Bitmask): $00–$4e
+```
+
+### Other Addresses
+```
+Time Left: $0100eb–$05003b
   Disabled: $006309, Maximum: $3b3b09
 
-0x001d23 - Normal Game Lives
-  Expected Value Range: $00–$09
-
-0x001031 - Current Room
-  Expected Value Range: $00–$ae
+Normal Game Lives: $00–$09
+Current Room: $00–$ae
 ```
 
 ## Values
@@ -100,12 +108,6 @@ $03 - Gary Bomber               $04 - Pirate Bomber             $05 - Muscle Bom
 $06 - Iron Mask Bomber          $07 - Baron Bombano             $08 - Plunder Bomber
 $09 - Subordinate Bomber
 ```
-
-### Notes
-- Despite being only a boss, **Subordinate Bomber** is fully functional with some small caveats:
-  - He lacks a player icon, causing some harmless glitches to the Battle Game scoreboard or the Config Mode interface.
-  - He uses Bomberman's portrait in menus, and Bomberman's sprite for the Score Board.
-  - If he gets a solo victory, the **game will crash** as he doesn't have a "shout out" voice clip.
 
 ### Palettes
 ```
@@ -129,12 +131,6 @@ $03 - Gyarooey (Yellow)         $04 - Kerooey (Blue)            $05 - Magicarooe
 $06 - Warooey (Black)
 ```
 
-### Notes
-- Warooey, the "boss-only" Rooey, has some quirks:
-  - Most of his sprites are there — including unused mine cart sprites.
-  - Warooey's jumping sprites exist in ROM but are never called during gameplay.
-  - Unlike other Rooeys, he has no special ability. However, he *does* have graphics for a shoulder tackle move in the ROM.
-
 ### Rooms
 ```
 $01 - Hudson Logo                       $02 - Title
@@ -153,14 +149,10 @@ $ac - Battle Game Test (doesn't end)*   $ad - Normal Game Item Test*
 $ae - Normal Game Enemy Test*
 ```
 
-### Notes
-- Values not listed here either lead to a black screen soft-lock, or a broken blue play field where the player dies over and over, but never actually loses any lives.
-- Debug menu and room values originally found by Shizi Kekotsike on *The Cutting Room Floor Wiki*.
-
 ### Power-Up Bitmask Values
 **Increasing** the address by these values gives a player an array of power-ups.
 
-> **Example:**<br>`$00` + `$20` + `$02` + `$08` = `$2a` (Mine Bomb + Kick + Boxing Glove)
+> **Example:**<br> `$00` + `$20` + `$02` + `$08` = `$2a` (Mine Bomb + Kick + Boxing Glove)
 
 ```
 +$00 - No Power-Ups             +$01 - Remote Bomb              +$02 - Kick
@@ -177,3 +169,17 @@ $ae - Normal Game Enemy Test*
 -$00 - No Pass Items                    -$20 - Soft Block Pass
 -$40 - Bomb Pass                        -$80 - Hard Block Pass (Unused; for debugging?)
 ```
+
+### Notes
+- Despite being only a boss, **Subordinate Bomber** is fully functional with some small caveats:
+  - He lacks a player icon, causing some harmless glitches to the Battle Game scoreboard or the Config Mode interface.
+  - He uses Bomberman's portrait in menus, and Bomberman's sprite for the Score Board.
+  - If he gets a solo victory, the **game will crash** as he doesn't have a "shout out" voice clip.
+
+- Warooey, the "boss-only" Rooey, has some quirks:
+  - Most of his sprites are there — including unused mine cart sprites.
+  - Warooey's jumping sprites exist in ROM but are never called during gameplay.
+  - Unlike other Rooeys, he has no special ability. However, he *does* have graphics for a shoulder tackle move in the ROM.
+
+- Values not listed here either lead to a black screen soft-lock, or a broken blue play field where the player dies over and over, but never actually loses any lives.
+- Debug menu and room values originally found by Shizi Kekotsike on *The Cutting Room Floor Wiki*.
