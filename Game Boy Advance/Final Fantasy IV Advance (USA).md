@@ -13,8 +13,8 @@ All values are **8-bit** unless otherwise noted.<br>Multi-byte values (**16-bit 
 0x00EC80 - Porom                0x00ECC8 - Edge                 0x00ED10 - FuSoYa
 ```
 
-### Byte Values Within Each Range
-#### Vitals:
+### Byte Layout
+#### Vitals
 ```
 +0x00 - Current HP (16-Bit)             +0x02 - Maximum HP (16-Bit)
 +0x04 - Current MP (16-Bit)             +0x06 - Maximum MP (16-Bit)
@@ -27,11 +27,11 @@ All values are **8-bit** unless otherwise noted.<br>Multi-byte values (**16-bit 
 
 #### Ability Attributes
 ```
-+0x0C Strength (Temporary)              +0x14 Strength (Permanent)
-+0x0D Agility (Temporary)               +0x15 Agility (Permanent)
-+0x0E Stamina (Temporary)               +0x16 Stamina (Permanent)
-+0x0F Intellect (Temporary)             +0x17 Intellect (Permanent)
-+0x10 Spirit (Temporary)                +0x18 Spirit (Permanent)
++0x0C Strength (Actual)                 +0x14 Strength (Displayed)
++0x0D Agility (Actual)                  +0x15 Agility (Displayed)
++0x0E Stamina (Actual)                  +0x16 Stamina (Displayed)
++0x0F Intellect (Actual)                +0x17 Intellect (Displayed)
++0x10 Spirit (Actual)                   +0x18 Spirit (Displayed)
 ```
 
 #### Combat Stats
@@ -58,20 +58,9 @@ All values are **8-bit** unless otherwise noted.<br>Multi-byte values (**16-bit 
 +0x40 - Experience (24-bit)
 ```
 
-#### Expected Value Ranges per Byte
-```
-HP (Both): $0000–$270F                  MP (Both): $0000–$270F
-Job: $00–$0B                            Level: $01–$63
-
-Ability Attributes: $00–$63             Combat Stats: $00–$FF
-Equipment: $0000–$4401
-
-Experience: $00000000–$0098967f
-```
-
 ### Notes
+- For ability attributes, the "displayed" value update to the "actual" values after a screen transition or when changing equipment. They don't matter otherwise.
 - Unlike in the Super Famicom version, Right / Left Hand Quantity only works with Arrows.
-- The Equipment values are 16-bit in this version due to the exclusive additional items.
 
 ## Spell Lists (`0x18` bytes each)
 ### White Magic
@@ -108,13 +97,12 @@ Experience: $00000000–$0098967f
 0x00EFA4 - Item Slot 1          0x00EFA8 - Item Slot 2        0x00EFAC - Item Slot 3
 0x00EFB0 - Item Slot 4          0x00EFB4 - Item Slot 5        0x00EFB8 - Item Slot 6
 …
-0x00F198 - Item Slot 126
+0x00F190 - Item Slot 124        0x00F194 - Item Slot 125      0x00F198 - Item Slot 126
 ```
 
-### Byte Values Within Each Range
+### Byte Layout
 ```
 +0x00 - Item Type (16-bit)              +0x02 - Item Quantity (8-bit)
-  Expected Value Range: $0000–$4101       Expected Value Range: $00—$FF
 ```
 
 ### Notes
@@ -122,24 +110,41 @@ Experience: $00000000–$0098967f
 
 ## Other Addresses
 ```
-0x00E9E6–0x00E9EA - Party Slot 1 to 5
-  Expected Value Range: $00—$0B
-
-0x00F2BC - Gil (32-bit)
-  Expected Value Range: $00000000—$05F5E0FF
+0x00E9E6–0x00E9EA - Party Slots         0x00F2BC - Party Gil (32-bit)
 ```
 
-## Values
-### Items
+## Expected Value Ranges
+### Character Stats
+```
+HP (Both): $0000–$270F                  MP (Both): $0000–$270F
+Job: $00–$0B                            Level: $01–$63
+
+Ability Attributes: $00–$63             Combat Stats: $00–$FF
+Equipment: $0000–$4401
+
+Experience: $00000000–$0098967f
+```
+
+### Inventory
+```
+Item Type: $0000–$4101                  Item Quantity: $00—$FF
+```
+
+### Other Addresses
+```
+Party Slots: $00—$0B                    Party Gil: $00000000—$05F5E0FF
+```
+
+# Reference Values
+## Items
 > *Please refer to [Final Fantasy IV Advance (W) - Items Appendix.md](Final%20Fantasy%20IV%20Advance%20(W)%20-%20Items%20Appendix.md)*
 
-### Spells
-#### None
+## Spells
 ```
 $00 - Empty
 ```
 
-#### White Magic
+### White Magic
 ```
 $01 - Hold                      $02 - Silence                   $03 - Confuse
 $04 - Blink                     $05 - Protect                   $06 - Shell
@@ -151,7 +156,7 @@ $13 - Life                      $14 - Full-Life                 $15 - Mini
 $16 - Teleport                  $17 - Sight                     $18 - Float
 ```
 
-#### Black Magic
+### Black Magic
 ```
 $19 - Toad                      $1A - Pig                       $1B - Warp
 $1C - Poison                    $1D - Fire                      $1E - Fira
@@ -163,7 +168,7 @@ $2B - Death                     $2C - Stop                      $2D - Drain
 $2E - Osmose                    $2F - Meteor                    $30 - Flare
 ```
 
-#### Summon
+### Summon
 ```
 $31 - Goblin                    $32 - Bomb                      $33 - Cockatrice
 $34 - Mind Flayer               $35 - Chocobo                   $36 - Shiva
@@ -172,22 +177,16 @@ $3A - Dragon                    $3B - Sylph                     $3C - Odin
 $3D - Leviathan                 $3E - Asura                     $3F - Bahamut
 ```
 
-#### Twincast
+### Twincast
 ```
 $40 - Comet                     $41 - Pyro
 ```
 
-#### Ninjitsu:
+### Ninjitsu
 ```
 $42 - Flame                     $43 - Flood                     $44 - Blitz
 $45 - Smoke                     $46 - Pin                       $47 - Image
 ```
-
-### Notes
-- Any spell-casting Job can use any of these spells if hacked in.
-- Both "Comet" (`0x40`) and "Pyro" (`0x41`) have the description "Dummy [Spell]". This is normally impossible to see, as Twincast casts either randomly.
-- Entries `0x46` through `0xAD` contain various text strings relating to special skills, Summon abilities, and enemy attacks. However, that's all they are — text strings.
-- Everything from `0xAE` onward is just bits of in-game text.
 
 ## Jobs
 ```
@@ -197,12 +196,6 @@ $06 - Bard                      $07 - Monk                      $08 - Black Mage
 $09 - White Mage (Porom)        $0A - Ninja                     $0B - Lunarian
 $0C - Paladin                   $0D - Summoner (Adult)          $0E - None (Golbez)
 ```
-
-### Notes
-- "Paladin" (`$0C`) and "Summoner (Adult)" (`$0D`) are set on Cecil and Rydia, respectively, at certain points of the game.
-- "None" (`$0E`) appears to be a copy of either Lunarian or Sage:
-  - It has the ability to use Black and White Magic, but can never learn any spells.
-  - While "None" can't physically equip anything, hovering over anything a Lunarian can equip in shop menus *will* cause the "None" to play its victory / "can equip" animation.
 
 ## Party Slots
 ```
@@ -214,5 +207,15 @@ $0E - Golbez
 ```
 
 ### Notes
+- Any spell-casting Job can use any of these spells if hacked in.
+- Both "Comet" (`0x40`) and "Pyro" (`0x41`) have the description "Dummy [Spell]". This is normally impossible to see, as Twincast casts either randomly.
+- Entries `0x46` through `0xAD` contain various text strings relating to special skills, Summon abilities, and enemy attacks. However, that's all they are — text strings.
+- Everything from `0xAE` onward is just bits of in-game text.
+
+- "Paladin" (`$0C`) and "Summoner (Adult)" (`$0D`) are set on Cecil and Rydia, respectively, at certain points of the game.
+- "None" (`$0E`) appears to be a copy of either Lunarian or Sage:
+  - It has the ability to use Black and White Magic, but can never learn any spells.
+  - While "None" can't physically equip anything, hovering over anything a Lunarian can equip in shop menus *will* cause the "None" to play its victory / "can equip" animation.
+  
 - Golbez is *technically* playable. However, his "stats" read from the Magic Lists coding, he lacks many necessary sprites, and will crash the game if attacking normally.
 - By default, Golbez's Job is `$00` (Dark Knight), but he *does* have his own "Job", listed above. This gives him a proper portrait, but that's about it.
