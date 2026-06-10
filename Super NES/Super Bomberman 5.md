@@ -5,8 +5,7 @@ Addresses are WRAM offsets and correspond to Super Famicom address `$7E:xxxx` (a
 
 All values are **8-bit** unless otherwise noted.<br>Multi-byte values (**16-bit or higher**) are stored in **little-endian** format: least significant byte first, most significant byte last.
 
-## Addresses
-### Player Status
+## Player Status
 ```
 0x0015a2–0x0015a6 - P1 to P5 Status (8-Bit Bit Flag)
   Bit Flags (8-bit): +$04 = Invulnerable, +$20 = Stunned, +$40 = Dead
@@ -21,11 +20,11 @@ All values are **8-bit** unless otherwise noted.<br>Multi-byte values (**16-bit 
   Expected Values: +$00 = No Rooey, +$02 = In Transit, +$80 = Riding Rooey
 ```
 
-#### Notes
+### Notes
 - The **Status** and **I-Frames** addresses must be used together to grant a player invulnerability.
 - The **Is on a Rooey?** addresses work instantly, but may crash the game if used in the middle of a level.
 
-### Player Customization
+## Player Customization
 ```
 0x0016c2–0x0016c6 - P1 to P5 Character
   Expected Value Range: $00 - $09
@@ -34,10 +33,10 @@ All values are **8-bit** unless otherwise noted.<br>Multi-byte values (**16-bit 
   Expected Value Range: $01 - $4f
 ```
 
-#### Notes
+### Notes
 - Changing the **character or palette** addresses work as expected for all players in a Normal or Battle Game, but will reset to their expected values at the map screen (Normal Game) or Score Board (Battle Game) unless frozen.
 
-### Player Power-Ups
+## Player Power-Ups
 ```
 0x0015d2–0x0015d6 - P1 to P5 Speed (LoByte)
   Expected Value Range: $00–$e0 (in increments of $20)
@@ -66,7 +65,7 @@ All values are **8-bit** unless otherwise noted.<br>Multi-byte values (**16-bit 
   Expected Value Range: $00–$4e
 ```
 
-#### Notes
+### Notes
 - In normal gameplay, players can only have one Bomb Type at a time (handled by the **Power-Ups** bitmask. However, if modded in, the game code happens to allow multiple active bomb abilities (with quirks):
   - **Remote Bomb** overrides all other bomb types visually and functionally, but preserves Pierce Bomb's piercing effect.
   - **Pierce Bomb** overrides Search Bomb and Mine Bomb visually, but preserves Search Bomb's tracking ability while ignoring Mine Bomb's trap ability.
@@ -80,7 +79,7 @@ All values are **8-bit** unless otherwise noted.<br>Multi-byte values (**16-bit 
     - `0x0016c9` can also store **Boss 2's Rooey value**, though this goes unused in normal gameplay.
   - Any untouched values in a boss fight — typically `0x0016c9` through `0x0016cc` — may still be used for normal enemies. (Iron Mask or Baron Bombano fights.)
 
-### Other Addresses
+## Other Addresses
 ```
 0x000e1c - Time Left (24-Bit)
   Expected Value Range: $0100eb–$05003b
@@ -95,7 +94,6 @@ All values are **8-bit** unless otherwise noted.<br>Multi-byte values (**16-bit 
 
 ## Values
 ### Characters
-
 ```
 $00 - Bomberman                 $01 - Bomber Woof               $02 - Dave Bomber
 $03 - Gary Bomber               $04 - Pirate Bomber             $05 - Muscle Bomber
@@ -103,7 +101,7 @@ $06 - Iron Mask Bomber          $07 - Baron Bombano             $08 - Plunder Bo
 $09 - Subordinate Bomber
 ```
 
-#### Notes
+### Notes
 - Despite being only a boss, **Subordinate Bomber** is fully functional with some small caveats:
   - He lacks a player icon, causing some harmless glitches to the Battle Game scoreboard or the Config Mode interface.
   - He uses Bomberman's portrait in menus, and Bomberman's sprite for the Score Board.
@@ -131,7 +129,7 @@ $03 - Gyarooey (Yellow)         $04 - Kerooey (Blue)            $05 - Magicarooe
 $06 - Warooey (Black)
 ```
 
-#### Notes
+### Notes
 - Warooey, the "boss-only" Rooey, has some quirks:
   - Most of his sprites are there — including unused mine cart sprites.
   - Warooey's jumping sprites exist in ROM but are never called during gameplay.
@@ -155,7 +153,7 @@ $ac - Battle Game Test (doesn't end)*   $ad - Normal Game Item Test*
 $ae - Normal Game Enemy Test*
 ```
 
-#### Notes
+### Notes
 - Values not listed here either lead to a black screen soft-lock, or a broken blue play field where the player dies over and over, but never actually loses any lives.
 - Debug menu and room values originally found by Shizi Kekotsike on *The Cutting Room Floor Wiki*.
 
