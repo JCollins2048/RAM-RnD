@@ -151,7 +151,7 @@ Refinement: $00–$03                  Cards: $00–$41 or $fe–$ff
 
 ## Values
 ### Equipment, Cards, and Skills
-> *Please refer to [Ragnarok DS (W) - Value Appendixes.md](Ragnarok DS (W) - Value Appendixes.md).*
+> *Please refer to [Ragnarok DS (W) - Value Appendixes.md](./Ragnarok DS (W) - Value Appendixes.md).*
 
 ### Job and Gender
 #### Male Characters

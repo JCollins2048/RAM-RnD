@@ -131,7 +131,7 @@ Experience: $00000000–$0098967f
 
 ## Values
 ### Items
-> *Please refer to [Final Fantasy IV Advance (W) - Items Appendix.md](Final Fantasy IV Advance (W) - Items Appendix.md)*
+> *Please refer to [Final Fantasy IV Advance (W) - Items Appendix.md](./Final Fantasy IV Advance (W) - Items Appendix.md)*
 
 ### Spells
 #### None
