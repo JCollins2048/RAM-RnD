@@ -207,15 +207,18 @@ $0E - Golbez
 ```
 
 ### Notes
+#### Spells
 - Any spell-casting Job can use any of these spells if hacked in.
 - Both "Comet" (`0x40`) and "Pyro" (`0x41`) have the description "Dummy [Spell]". This is normally impossible to see, as Twincast casts either randomly.
 - Entries `0x46` through `0xAD` contain various text strings relating to special skills, Summon abilities, and enemy attacks. However, that's all they are — text strings.
 - Everything from `0xAE` onward is just bits of in-game text.
 
+#### Jobs
 - "Paladin" (`$0C`) and "Summoner (Adult)" (`$0D`) are set on Cecil and Rydia, respectively, at certain points of the game.
 - "None" (`$0E`) appears to be a copy of either Lunarian or Sage:
   - It has the ability to use Black and White Magic, but can never learn any spells.
   - While "None" can't physically equip anything, hovering over anything a Lunarian can equip in shop menus *will* cause the "None" to play its victory / "can equip" animation.
-  
+
+#### Party Slots  
 - Golbez is *technically* playable. However, his "stats" read from the Magic Lists coding, he lacks many necessary sprites, and will crash the game if attacking normally.
 - By default, Golbez's Job is `$00` (Dark Knight), but he *does* have his own "Job", listed above. This gives him a proper portrait, but that's about it.

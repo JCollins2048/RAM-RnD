@@ -171,15 +171,18 @@ $ae - Normal Game Enemy Test*
 ```
 
 ### Notes
+#### Characters
 - Despite being only a boss, **Subordinate Bomber** is fully functional with some small caveats:
   - He lacks a player icon, causing some harmless glitches to the Battle Game scoreboard or the Config Mode interface.
   - He uses Bomberman's portrait in menus, and Bomberman's sprite for the Score Board.
   - If he gets a solo victory, the **game will crash** as he doesn't have a "shout out" voice clip.
 
+#### Rooeys
 - Warooey, the "boss-only" Rooey, has some quirks:
   - Most of his sprites are there — including unused mine cart sprites.
   - Warooey's jumping sprites exist in ROM but are never called during gameplay.
   - Unlike other Rooeys, he has no special ability. However, he *does* have graphics for a shoulder tackle move in the ROM.
 
+#### Roos
 - Values not listed here either lead to a black screen soft-lock, or a broken blue play field where the player dies over and over, but never actually loses any lives.
 - Debug menu and room values originally found by Shizi Kekotsike on *The Cutting Room Floor Wiki*.
