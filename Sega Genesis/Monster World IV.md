@@ -24,7 +24,7 @@ Lastly, these addresses are valid for both the Japanese original release and the
 
 ### Other Stats
 ```
-0xDE2B - Pepelogoo Level
+0xCC70 - I-Frames                       0xDE2B - Pepelogoo Level
 ```
 
 ### Notes
@@ -46,7 +46,7 @@ Lastly, these addresses are valid for both the Japanese original release and the
 ## Player Inventory
 ```
 0xDE25 - Sword                  0xDE24 - Shield                 0xDE27 - Armor
-0xDAA9 - Have Life Medicine?                                   0xDAE1 - Medicine Slot
+0xDAA9 - Have Life Medicine?                                    0xDAE1 - Medicine Slot
 0xDE1B - Item Slot 1            0xDE1A - Item Slot 2            0xDE1D - Item Slot 3
 …
 0xDE22 - Item Slot 10
@@ -55,16 +55,16 @@ Lastly, these addresses are valid for both the Japanese original release and the
 ## Expected Value Ranges
 ### Player Stats
 ```
-Current Health: $00–$1E                 Hearts (Both): $03–$0E
-Life Drops: $00–$0A                     Gold (32-bit): $00000000–$000F423F
-Pepelogoo Level: $00–$02, $FF
+Current Health: $00-$1E                 Hearts (Both): $03-$0E
+Life Drops: $00-$0A                     Gold (32-bit): $00000000-$000F423F
+Pepelogoo Level: $00-$02, $FF           I-Frames: $00-$7E
 ```
 
 ### Player Inventory
 ```
-Sword: $00–$07                  Shield: $08–0F                  Armor: $10–14, $17
+Sword: $00-$07                  Shield: $08-0F                  Armor: $10-14, $17
 Have Life Medicine?: $00 = No, $FF = Yes                        Medicine Slot: $1C, $FE
-Item Slots: $1B, $1D–$2F
+Item Slots: $1B, $1D-$2F
 ```
 
 ### Notes
@@ -75,13 +75,16 @@ Item Slots: $1B, $1D–$2F
 - The Gold display uses a fixed 6-digit decimal field, truncating any digits beyond the least significant six places.
 > **Example:**<br>If the player has `$FADAC826` (4,208,642,086) gold, the HUD displays 642,086.
 - Any Pepelogoo Level value beyond `$02` will disable the Pepelogoo.
+- Freezing the I-frame counter at `$00`, then taking a hit, causes it to underflow to `$FF`, granting effectively permanent invincibility.
+  - Condition: bit `$80` is set in the "2nd animation counter" at `$CC73`.
+  - Result: the counter continues decrementing while that bit is set.
 
 #### Player Inventory
 - Anything can go into any item slot, but items or the wrong kind of equipment in the equipment slots may lead to strange effects.
 - "Debug Armor (Pepe)" (`$17`) can be obtained in-game by avoiding interaction with the Sage of Save in Rapadagna Town, which prevents the event flag at `0xCCCE` from being changed from `$00` to `$40`. After this condition is met, the hidden Magic Merchant NPC in the garden beyond the castle's right-hand wall becomes interactable.
- - The address `0xCCCE` appears to be a generic NPC interaction / event flag ("Have we spoken?" state). Many NPCs use similar flags, but this particular flag uniquely governs the interaction state of the Magic Merchant.
+  - The address `0xCCCE` appears to be a generic NPC interaction / event flag ("Have we spoken?" state). Many NPCs use similar flags, but this particular flag uniquely governs the interaction state of the Magic Merchant.
 - The "Have Medicine" value is a boolean: `$00` means "no" while anything else means "yes".
- - The Medicine Slot is expected to have Healing Medicine (`$19`) while "Have Medicine" is set to true. 
+  - The Medicine Slot is expected to have Healing Medicine (`$19`) while "Have Medicine" is set to true. 
 - Attempting to place anything in the Medicine Slot will only work while in the menu. Leaving and coming back will either empty the slot, or replace the item with Healing Medicine, depending on the "Have Medicine?" boolean.
 - The player cannot equip swords, shields, or armor from item slots.
 - Using Healing Medicine from an item slot works, but it is not consumed. Instead, it clears the "Have Medicine?" flag (`$00`).
@@ -89,7 +92,7 @@ Item Slots: $1B, $1D–$2F
 ## Values
 ### Blanks
 ```
-$80–$FF - Empty                 $18–$1A - Blank
+$80-$FF - Empty                 $18-$1A - Blank
 ```
 
 ### Swords
@@ -129,8 +132,8 @@ $2D - Sun Medallion             $2E - Wind Medallion            $2F - Magic Carp
 
 ### Value Notes
 - There are numerous "blank" slots in the game:
- - Item values `$18–1A` and `$80–FF` are empty inventory slots.
- - Item values `$30–3F` have no icon and display various text strings.
- - Item values `$40–4F` pull random data for icons and display various text strings.
+  - Item values `$18-1A` and `$80-FF` are empty inventory slots.
+  - Item values `$30-3F` have no icon and display various text strings.
+  - Item values `$40-4F` pull random data for icons and display various text strings.
 - All Debug Armors give +15 Endurance, just like the Legendary Armor.
 - The third Debug Armor has a debugging text string that will allow the player to instantly raise their Pepelogoo to Level 1, 2, or 3. There is no option to get rid of it entirely.
