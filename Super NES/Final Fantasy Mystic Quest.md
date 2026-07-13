@@ -146,4 +146,4 @@ Weapons Owned: $0000–$FFF0              Armor Owned: $000000–$FC3B80
 
 # Reference Values
 ## Items
-> *Please refer to [Final Fantasy Mystic Quest - Values Appendix.md](Final20%Fantasy20%Mystic20%Quest20%-20%Values20%Appendix.md)*
+> *Please refer to [Final Fantasy Mystic Quest - Values Appendix.md](Final%20Fantasy%20Mystic%20Quest%20-%20Values%20Appendix.md)*
