@@ -103,7 +103,7 @@ $1 = Kaeli      $2 = Tristan    $3 = Phoebe     $4 = Reuben
 $5 = Kaeli 2    $6 = Tristan 2  $7 = Phoebe 2   $8 = Reuben 2
 ```
 
-### Companion Weapons and Armor (4-bit)
+### Companion Equipment (4-bit)
 #### Helmet
 ```
     Nothing = $0, $1
@@ -165,3 +165,4 @@ Magic Ring = $1, $3, $5, $7, $9, $B, $D, $F
 - I have no idea why the Owned Armor value uses *three* bytes and in such a weird manner.
 - Benjamin (`$0`) as a companion character goes completely unused in the game.
 - The duplicate companions ("Kaeli 2" (`$5`), for example) are used when a companion rejoins the player later on. There is no difference between either version that I can tell.
+- The duplicated Companion Equipment values appear to follow a consistent pattern, suggesting they are decoded rather than stored as simple item IDs. The exact logic behind this encoding remains unknown.
