@@ -43,18 +43,6 @@ Player Speed:
 
 ### Notes
 - All addresses are for Players 1 through 5.
-
-- The **Status** and **I-Frames** addresses must be used together to grant a player invulnerability.
-- The **Is on a Rooey?** addresses work instantly, but may crash the game if used in the middle of a level.
-
-- Changing the **character or palette** addresses work as expected for all players in a Normal or Battle Game, but will reset to their expected values at the map screen (Normal Game) or Score Board (Battle Game) unless frozen.
-
-- In normal gameplay, players can only have one Bomb Type at a time (handled by the **Power-Ups** bitmask. However, if modded in, the game code happens to allow multiple active bomb abilities (with quirks):
-  - **Remote Bomb** overrides all other bomb types visually and functionally, but preserves Pierce Bomb's piercing effect.
-  - **Pierce Bomb** overrides Search Bomb and Mine Bomb visually, but preserves Search Bomb's tracking ability while ignoring Mine Bomb's trap ability.
-  - **Search Bomb** takes precedence over Mine Bomb's trap ability, but retains Mine Bomb's graphics.
-  - **Mine Bomb**, when combined with Pierce Bomb, retains its trap ability but uses Pierce Bomb's graphics.
-
 - `0x0016c4` through `0x0016cc` are a sliding data block:
   - In a Normal Game, `0x0016c4` and `0x0016c5` are **Player 1 and Player 2's Rooey values**, and `0x0016c7` through `0x0016cb` (plus `0x0016cc`) are **enemy values**.
   - In a single-boss battle, `0x0016c4` is the **boss character value**, `0x0016c5` and `0x0016c6` are **Player 1 and Player 2's Rooey values**, and `0x0016c7` is **Boss 1's Rooey value**.
@@ -62,17 +50,35 @@ Player Speed:
     - `0x0016c9` can also store **Boss 2's Rooey value**, though this goes unused in normal gameplay.
   - Any untouched values in a boss fight — typically `0x0016c9` through `0x0016cc` — may still be used for normal enemies. (Iron Mask or Baron Bombano fights.)
 
+#### Current Status
+- The **Status** and **I-Frames** addresses must be used together to grant a player invulnerability.
+- The **Is on a Rooey?** addresses work instantly, but may crash the game if used in the middle of a level.
+
+#### Customization
+- Changing the **character or palette** addresses work as expected for all players in a Normal or Battle Game, but will reset to their expected values at the map screen (Normal Game) or Score Board (Battle Game) unless frozen.
+
+#### Power-Ups
+- In normal gameplay, players can only have one Bomb Type at a time (handled by the **Power-Ups** bitmask. However, if modded in, the game code happens to allow multiple active bomb abilities (with quirks):
+  - **Remote Bomb** overrides all other bomb types visually and functionally, but preserves Pierce Bomb's piercing effect.
+  - **Pierce Bomb** overrides Search Bomb and Mine Bomb visually, but preserves Search Bomb's tracking ability while ignoring Mine Bomb's trap ability.
+  - **Search Bomb** takes precedence over Mine Bomb's trap ability, but retains Mine Bomb's graphics.
+  - **Mine Bomb**, when combined with Pierce Bomb, retains its trap ability but uses Pierce Bomb's graphics.
+
 ## Expected Value Ranges
 ### Player Status
 ```
-Status: +$04 = Invulnerable, +$20 = Stunned, +$40 = Dead
-I-Frames LoByte: $00 - $ff              I-Frames HiByte: $00 - $04
-Is Player on a Rooey?: +$00 = No Rooey, +$02 = In Transit, +$80 = Riding Rooey
+Status:
+  +$04 = Invulnerable, +$20 = Stunned, +$40 = Dead
+
+I-Frames LoByte: $00–$ff              I-Frames HiByte: $00–$04
+
+Is Player on a Rooey?:
+  +$00 = No Rooey, +$02 = In Transit, +$80 = Riding Rooey
 ```
 
 ### Player Customization
 ```
-Character: $00 - $09                    Palette: $01 - $4f
+Character: $00–$09                      Palette: $01–$4f
 ```
 
 ### Player Power-Ups
@@ -96,8 +102,7 @@ Player Power-Ups (Bitmask): $00–$4e
 Time Left: $0100eb–$05003b
   Disabled: $006309, Maximum: $3b3b09
 
-Normal Game Lives: $00–$09
-Current Room: $00–$ae
+Normal Game Lives: $00–$09		Current Room: $00–$ae
 ```
 
 ## Values
